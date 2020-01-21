@@ -1,7 +1,7 @@
 import { isSubsequence } from "../src/modules";
 
-describe("Disallowed Words", () => {
-  it("check is string is subsequnce of another", () => {
+describe("Subsequnce", () => {
+  it("returns true when string is subsequnce of another", () => {
     expect(isSubsequence('RATS', 'RATS42')).toBe(true);  
     expect(isSubsequence('RATS', '3RQATS')).toBe(true);
     expect(isSubsequence('RATS', '3FE4PM')).toBe(false);

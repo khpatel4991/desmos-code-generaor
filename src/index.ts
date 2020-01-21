@@ -1,7 +1,7 @@
-import { charCodeGenerator, disallowedWordCheckGenerator } from 'modules';
+import { charCodeGenerator, disallowedWordCheckGenerator } from './modules';
 
-const DISALLOWED_CHARS = ['I', 'L', 'O', '0', '1'];
-const DISALLOWED_WORDS = [
+export const DISALLOWED_CHARS = ['I', 'L', 'O', '0', '1'];
+export const DISALLOWED_WORDS = [
   'darn',
   'rats',
   'egg',
@@ -14,15 +14,18 @@ const DISALLOWED_WORDS = [
 ]
 
 interface IRandomCodeGeneratorOptions {
-  disallowedChars: string[];
-  disallowedWords: string[];
+  disallowedChars?: string[];
+  disallowedWords?: string[];
 }
 
 
-export const randomCharsGeneratorFactory = ({ disallowedChars, disallowedWords }: IRandomCodeGeneratorOptions = {
-  disallowedChars: DISALLOWED_CHARS,
-  disallowedWords: DISALLOWED_WORDS
-}) => {
+export const randomCodeGeneratorFactory = (opts: IRandomCodeGeneratorOptions = {}) => {
+  const safeOptions = {
+    disallowedChars: DISALLOWED_CHARS,
+    disallowedWords: DISALLOWED_WORDS,
+    ...opts,
+  };
+  const { disallowedChars, disallowedWords } = safeOptions;
   const allowedCharCodes = charCodeGenerator(disallowedChars);
   const codeContainsDisallowedWords = disallowedWordCheckGenerator(disallowedWords);
   const generateCode = (): string => {
