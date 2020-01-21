@@ -26,6 +26,17 @@ By default, runs tests related to files changed since the last commit.
 
 This module exports a factory, that accepts an optional argument that allows you to customize disallowed character and disallowed words.
 
+### API Reference
+
+
+| Param           | Required      | Default                   |
+| --------------- |:-------------:| -------------------------:|
+| disallowedChars | NO            | ['I', 'L', 'O', '0', '1'] |
+| disallowedWords | NO            |   ['darn', 'rats', 'egg', 'fuzzy', 'kthx', 'haha' 'ugh', '777', 'cheese'] |
+
+
+### Code Reference
+
 ```js
 import { codeGeneratorFactory } from 'desmos-random-code-generator';
 
@@ -42,5 +53,3 @@ const generator2 = codeGenerator({
 });
 
 ```
-
-
