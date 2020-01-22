@@ -1,18 +1,19 @@
-jest.mock("../src/modules");
+jest.mock("../src/modules/disallowedWordCheckGenerator");
+jest.mock("../src/modules/charCodeGenerator");
 
 import { randomCodeGeneratorFactory, DISALLOWED_CHARS, DISALLOWED_WORDS } from "../src";
 
-import * as modules from "../src/modules";
+import * as mockDisallowedWordCheckGenerator from "../src/modules/disallowedWordCheckGenerator";
+import * as mockCharCodeGenerator from "../src/modules/charCodeGenerator";
 
-const { charCodeGenerator, disallowedWordCheckGenerator } = modules as jest.Mocked<typeof modules>;
+const { disallowedWordCheckGenerator } = mockDisallowedWordCheckGenerator as jest.Mocked<typeof mockDisallowedWordCheckGenerator>;
+const { charCodeGenerator } = mockCharCodeGenerator as jest.Mocked<typeof mockCharCodeGenerator>;
 
 
 describe("Desmos Random Code Generator", () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   })
-
   it("generates random code", () => {
     const mockedAllowedCodes = ['A'.charCodeAt(0), 'B'.charCodeAt(0)];
     charCodeGenerator.mockReturnValueOnce(mockedAllowedCodes);
@@ -42,7 +43,6 @@ describe("Desmos Random Code Generator", () => {
     expect(disallowedWordCheckGenerator).toBeCalledWith(DISALLOWED_WORDS);
     expect(disallowedWordCheckerSpy).toBeCalledTimes(1);
   })
-
   it("allows custom disallowed words", () => {
     const mockedAllowedCodes = ['A'.charCodeAt(0), 'B'.charCodeAt(0)];
     charCodeGenerator.mockReturnValueOnce(mockedAllowedCodes);
@@ -58,5 +58,4 @@ describe("Desmos Random Code Generator", () => {
     expect(disallowedWordCheckGenerator).toBeCalledWith(['haha', 'qwerty']);
     expect(disallowedWordCheckerSpy).toBeCalledTimes(2);
   })
-
 })

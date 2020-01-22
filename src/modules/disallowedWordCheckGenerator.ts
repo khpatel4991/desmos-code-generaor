@@ -1,4 +1,4 @@
-import { isSubsequence } from '.'
+import { isSubsequence } from './isSubsequence'
 
 export const disallowedWordCheckGenerator = (disallowedWords: string[]) => {
   const capitalized = disallowedWords.map(s => s.toLocaleUpperCase())

@@ -1,4 +1,5 @@
-import { charCodeGenerator, disallowedWordCheckGenerator } from './modules';
+import { charCodeGenerator } from './modules/charCodeGenerator';
+import { disallowedWordCheckGenerator } from './modules/disallowedWordCheckGenerator';
 
 export const DISALLOWED_CHARS = ['I', 'L', 'O', '0', '1'];
 export const DISALLOWED_WORDS = [

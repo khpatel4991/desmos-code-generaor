@@ -1,4 +1,4 @@
-import { disallowedWordCheckGenerator } from "../src/modules";
+import { disallowedWordCheckGenerator } from "../src/modules/disallowedWordCheckGenerator";
 
 describe("Disallowed Word Check", () => {
   it("returns false for valid codes", () => {

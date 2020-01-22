@@ -1,4 +1,4 @@
-import { charCodeGenerator } from "../src/modules";
+import { charCodeGenerator } from "../src/modules/charCodeGenerator";
 
 describe("generateAllowedCharCodes", () => {
   // [0, 1, 2, ..., 9, 'A', 'B', 'C', ..., 'Z']

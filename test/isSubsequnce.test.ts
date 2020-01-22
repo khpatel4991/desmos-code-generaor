@@ -1,4 +1,4 @@
-import { isSubsequence } from "../src/modules";
+import { isSubsequence } from "../src/modules/isSubsequence";
 
 describe("Subsequnce", () => {
   it("returns true when string is subsequnce of another", () => {
