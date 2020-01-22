@@ -12,15 +12,16 @@ export const DISALLOWED_WORDS = [
   'ugh',
   '777',
   'cheese',
-]
+];
 
 interface IRandomCodeGeneratorOptions {
   disallowedChars?: string[];
   disallowedWords?: string[];
 }
 
-
-export const randomCodeGeneratorFactory = (opts: IRandomCodeGeneratorOptions = {}) => {
+export const randomCodeGeneratorFactory = (
+  opts: IRandomCodeGeneratorOptions = {}
+) => {
   const safeOptions = {
     disallowedChars: DISALLOWED_CHARS,
     disallowedWords: DISALLOWED_WORDS,
@@ -28,20 +29,23 @@ export const randomCodeGeneratorFactory = (opts: IRandomCodeGeneratorOptions = {
   };
   const { disallowedChars, disallowedWords } = safeOptions;
   const allowedCharCodes = charCodeGenerator(disallowedChars);
-  const codeContainsDisallowedWords = disallowedWordCheckGenerator(disallowedWords);
+  const codeContainsDisallowedWords = disallowedWordCheckGenerator(
+    disallowedWords
+  );
   const generateCode = (): string => {
     let ans = '';
     for (let i = 0; i < 6; i++) {
-      const charCode = Math.floor((Math.random() * allowedCharCodes.length))
+      const charCodeIdx = Math.floor(Math.random() * allowedCharCodes.length);
+      const charCode = allowedCharCodes[charCodeIdx];
       ans = ans + String.fromCharCode(charCode);
     }
     return ans;
   };
   return () => {
     let code = generateCode();
-    while(codeContainsDisallowedWords(code)) {
+    while (codeContainsDisallowedWords(code)) {
       code = generateCode();
     }
     return code;
   };
-}
+};
