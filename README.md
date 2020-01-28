@@ -25,6 +25,7 @@ By default, runs tests related to files changed since the last commit.
 ## Usage
 
 This module exports a factory, that accepts an optional argument that allows you to customize disallowed character and disallowed words.
+The generator function returned from the factory now takes an optional `number` argument to generate codes in batches. Default is 1.
 
 ### API Reference
 
@@ -32,7 +33,7 @@ This module exports a factory, that accepts an optional argument that allows you
 | Param           | Required      | Default                   |
 | --------------- |:-------------:| -------------------------:|
 | disallowedChars | NO            | ['I', 'L', 'O', '0', '1'] |
-| disallowedWords | NO            |   ['darn', 'rats', 'egg', 'fuzzy', 'kthx', 'haha' 'ugh', '777', 'cheese'] |
+| disallowedWords | NO            | ['darn', 'rats', 'egg', 'fuzzy', 'kthx', 'haha' 'ugh', '777', 'cheese'] |
 
 
 ### Code Reference
@@ -42,9 +43,8 @@ import { codeGeneratorFactory } from 'desmos-random-code-generator';
 
 const generator = codeGeneratorFactory();
 
-const rand1 = generator();
-const rand2 = generator();
-const rand3 = generator();
+const rand1 = generator(); // Array of distinct code with size 1
+const rand2 = generator(10); // Array of distinct code with size 10
 // and more
 
 const generator2 = codeGenerator({

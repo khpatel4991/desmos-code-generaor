@@ -31,13 +31,53 @@ describe('Desmos Random Code Generator', () => {
       () => disallowedWordCheckerSpy
     );
     const factory = randomCodeGeneratorFactory();
-
-    expect(factory()).toHaveLength(6);
+    const code = factory();
+    expect(code).toHaveLength(1);
+    expect(code[0]).toHaveLength(6);
     expect(charCodeGenerator).toBeCalledTimes(1);
     expect(charCodeGenerator).toBeCalledWith(DISALLOWED_CHARS);
     expect(disallowedWordCheckGenerator).toBeCalledTimes(1);
     expect(disallowedWordCheckGenerator).toBeCalledWith(DISALLOWED_WORDS);
     expect(disallowedWordCheckerSpy).toBeCalledTimes(1);
+  });
+  it('generates random codes of given batch size', () => {
+    const mockedAllowedCodes = ['A'.charCodeAt(0), 'B'.charCodeAt(0)];
+    charCodeGenerator.mockReturnValueOnce(mockedAllowedCodes);
+    const disallowedWordCheckerSpy = jest.fn().mockReturnValue(false);
+    disallowedWordCheckGenerator.mockImplementationOnce(
+      () => disallowedWordCheckerSpy
+    );
+    const factory = randomCodeGeneratorFactory();
+    const codes = factory(5);
+    expect(codes).toHaveLength(5);
+    expect(new Set(codes).size).toBe(5);
+    expect(codes[0]).toHaveLength(6);
+    expect(charCodeGenerator).toBeCalledTimes(1);
+    expect(charCodeGenerator).toBeCalledWith(DISALLOWED_CHARS);
+    expect(disallowedWordCheckGenerator).toBeCalledTimes(1);
+    expect(disallowedWordCheckGenerator).toBeCalledWith(DISALLOWED_WORDS);
+    expect(disallowedWordCheckerSpy).toBeCalledTimes(5);
+  });
+  it('generates random codes of given batch size with no duplicate in same batch', () => {
+    const mockedAllowedCodes = ['A'.charCodeAt(0), 'B'.charCodeAt(0)];
+    charCodeGenerator.mockReturnValueOnce(mockedAllowedCodes);
+    const disallowedWordCheckerSpy = jest
+      .fn()
+      .mockReturnValueOnce(true)
+      .mockReturnValue(false);
+    disallowedWordCheckGenerator.mockImplementationOnce(
+      () => disallowedWordCheckerSpy
+    );
+    const factory = randomCodeGeneratorFactory();
+    const codes = factory(5);
+    expect(codes).toHaveLength(5);
+    expect(new Set(codes).size).toBe(5);
+    expect(codes[0]).toHaveLength(6);
+    expect(charCodeGenerator).toBeCalledTimes(1);
+    expect(charCodeGenerator).toBeCalledWith(DISALLOWED_CHARS);
+    expect(disallowedWordCheckGenerator).toBeCalledTimes(1);
+    expect(disallowedWordCheckGenerator).toBeCalledWith(DISALLOWED_WORDS);
+    expect(disallowedWordCheckerSpy).toBeCalledTimes(6);
   });
   it('allows custom disallowed chars', () => {
     const mockedAllowedCodes = ['A'.charCodeAt(0), 'B'.charCodeAt(0)];
@@ -49,7 +89,9 @@ describe('Desmos Random Code Generator', () => {
     const factory = randomCodeGeneratorFactory({
       disallowedChars: ['D', 'L', '6'],
     });
-    expect(factory()).toHaveLength(6);
+    const codes = factory();
+    expect(codes).toHaveLength(1);
+    expect(codes[0]).toHaveLength(6);
     expect(charCodeGenerator).toBeCalledTimes(1);
     expect(charCodeGenerator).toBeCalledWith(['D', 'L', '6']);
     expect(disallowedWordCheckGenerator).toBeCalledTimes(1);
@@ -69,7 +111,9 @@ describe('Desmos Random Code Generator', () => {
     const factory = randomCodeGeneratorFactory({
       disallowedWords: ['haha', 'qwerty'],
     });
-    expect(factory()).toHaveLength(6);
+    const codes = factory();
+    expect(codes).toHaveLength(1);
+    expect(codes[0]).toHaveLength(6);
     expect(charCodeGenerator).toBeCalledTimes(1);
     expect(charCodeGenerator).toBeCalledWith(DISALLOWED_CHARS);
     expect(disallowedWordCheckGenerator).toBeCalledTimes(1);
