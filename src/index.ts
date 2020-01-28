@@ -41,11 +41,15 @@ export const randomCodeGeneratorFactory = (
     }
     return ans;
   };
-  return () => {
-    let code = generateCode();
-    while (codeContainsDisallowedWords(code)) {
-      code = generateCode();
+  return (noOfCodes: number = 1) => {
+    const set = new Set();
+    for (let i = 0; i < noOfCodes; i++) {
+      let code = generateCode();
+      while (set.has(code) || codeContainsDisallowedWords(code)) {
+        code = generateCode();
+      }
+      set.add(code);
     }
-    return code;
+    return Array.from(set);
   };
 };
